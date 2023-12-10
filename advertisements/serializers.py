@@ -40,8 +40,8 @@ class AdvertisementSerializer(serializers.ModelSerializer):
         """Метод для валидации. Вызывается при создании и обновлении."""
 
         # TODO: добавьте требуемую валидацию
-        count_adv = Advertisement.objects.filter(status='OPEN', creator=self.context["request"].user)
-        if count_adv >= 10 and data.get('status') == 'OPEN':
+        count_adv = Advertisement.objects.all().filter(status='OPEN', creator=self.context["request"].user)
+        if count_adv.count() >= 10 and data.get('status') == 'OPEN':
             raise ValueError('Превышен лимит открытых объявлений')
 
         return data
